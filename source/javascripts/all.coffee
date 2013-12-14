@@ -1,6 +1,6 @@
 width   = 1500
-size    = 200
-padding = 20
+size    = 100
+padding = 15
 
 x = d3.scale.linear().range [padding / 2, size - padding / 2]
 y = d3.scale.linear().range [size - padding / 2, padding / 2]
@@ -14,7 +14,7 @@ dataLoaded = (error, data) ->
   extents = {}
 
   for key,val of data[0]
-    if !isNaN(parseFloat(val)) and key != 'player_id'
+    if !isNaN(parseFloat(val)) and key not in ['player_id', 'num', 'leagueid', 'season', 'teamid']
       props.push key
       extents[key] = d3.extent data, (d) -> d[key]
 
@@ -36,7 +36,7 @@ dataLoaded = (error, data) ->
   .enter().append('g')
     .attr('class', 'x axis')
     .attr('transform', (d, i) -> "translate(#{(len - i - 1) * size}, 0)")
-    .each((d) -> x.domain(extents[d]); d3.select(this).call(xax))
+    .each((d) -> x.domain(extents[d]).nice(); d3.select(this).call(xax))
 
   vis.selectAll('.y.axis')
     .data(props)
@@ -45,7 +45,6 @@ dataLoaded = (error, data) ->
     .attr('transform', (d, i) -> "translate(0, #{i * size})")
     .each((d) -> y.domain(extents[d]); d3.select(this).call(yax))
 
-  console.log data[0]
   plot = (p) ->
     cell = d3.select this
     x.domain extents[p.x]
@@ -57,20 +56,27 @@ dataLoaded = (error, data) ->
       .attr('y', padding / 2)
       .attr('width', size - padding)
       .attr('height', size - padding)
+      .classed('master', (d) -> d.x == d.y)
 
     cell.selectAll('circle')
       .data(data)
     .enter().append('circle')
       .attr('cx', (d) -> x d[p.x])
       .attr('cy', (d) -> y d[p.y])
-      .attr('r', 2)
+      .attr('r', 1)
 
   cell = vis.selectAll('.cell')
     .data(crossed)
   .enter().append('g')
     .attr('class', 'cell')
     .attr('transform', (d) -> "translate(#{(len - d.i - 1) * size}, #{d.j * size})")
-    #.each(plot)
+    .each(plot)
+
+  cell.filter((d) -> d.i == d.j).append('text')
+    .attr('x', padding)
+    .attr('y', padding)
+    .attr('dy', '.7em')
+    .text((d) -> d.x)
 
 cross = (a, b) ->
   c = []
