@@ -1,9 +1,10 @@
 #!/usr/bin/env coffee
-csv = require 'ya-csv'
+csv = require 'csv'
 fs  = require 'fs'
 glob = require 'glob'
 vm   = require 'vm'
 path = require 'path'
+
 
 prefix = [
   'PTS',
@@ -17,9 +18,45 @@ prefix = [
   'PTS_TOT'
 ]
 
+players = {}
+headers = []
+
+# Convert strings like 6-11 to their inch equivelant
+#
+# returns an integer
+heightToInches = (height) ->
+  [feet, inches] = height.split('-').map (d) -> parseFloat d
+  (feet * 12) + inches
+
+# Go through team roster files and fill in some general player
+# metadata including position, height, weight, etc.
+#
+# returns nothing
+glob 'data/*.json', (err, paths) ->
+  for location in paths
+    data = JSON.parse(fs.readFileSync location, 'utf8')
+    pheaders = data.resultSets[0].headers.map (h) -> h.toLowerCase()
+    headers.concat(pheaders) if headers.length == 0
+
+    for pl in data.resultSets[0].rowSet
+      tmpplayer = {}
+      for stat,i in pl
+        hdr = pheaders[i]
+        if hdr.toLowerCase() == 'birth_date'
+          tmpplayer[hdr] = new Date(stat)
+        else if hdr.toLowerCase() == 'height'
+          tmpplayer[hdr] = heightToInches stat
+        else
+          tmpplayer[hdr] = stat.toString().replace(',', '')
+
+      curplayer = players[tmpplayer.player_id] ?= tmpplayer
+
+
+# Go through every advanced stat and join in with the player metadata
+# above
+#
+# Returns nothing
 glob 'data/*.js', (err, paths) ->
-  players = {}
-  headers = []
   for location in paths
     data = fs.readFileSync(location, 'utf8')
     sandbox = {}
@@ -42,14 +79,13 @@ glob 'data/*.js', (err, paths) ->
       for stat in rs.rowSet
         player = {}
         player[keys[i]] = val for val,i in stat
-        players[player.PLAYER_ID] ?= {}
         db = players[player.PLAYER_ID]
+        continue if !db
 
         # Set the stats on the stored player
         for name,val of player
           name = "#{keyprefix}_#{name}" if name in prefix
           db[name.toLowerCase()] = val
-
 
   wroteHeaders = false
   for pid, stats of players
