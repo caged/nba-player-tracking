@@ -1,0 +1,66 @@
+#!/usr/bin/env coffee
+csv = require 'ya-csv'
+fs  = require 'fs'
+glob = require 'glob'
+vm   = require 'vm'
+path = require 'path'
+
+prefix = [
+  'PTS',
+  'FGM',
+  'FGA',
+  'FG_PCT',
+  'FG3M',
+  'FG3A',
+  'FG3_PCT',
+  'EFG_PCT',
+  'PTS_TOT'
+]
+
+glob 'data/*.js', (err, paths) ->
+  players = {}
+  headers = []
+  for location in paths
+    data = fs.readFileSync(location, 'utf8')
+    sandbox = {}
+    vm.runInNewContext data.toString(), sandbox
+
+    # Get an array of every header across all files first
+    for key of sandbox
+      rs = sandbox[key].resultSets[0]
+      headers = headers.concat rs.headers
+
+    headers = headers.filter (val, index, obj) -> obj.indexOf(val) == index
+
+    for key of sandbox
+      rs   = sandbox[key].resultSets[0]
+      keys = rs.headers
+      keyprefix = path.basename(location).replace('.js', '').replace('-', '_')
+
+      # Loop through current advanced stat file and add the stats to the
+      # player previously created or create the player
+      for stat in rs.rowSet
+        player = {}
+        player[keys[i]] = val for val,i in stat
+        players[player.PLAYER_ID] ?= {}
+        db = players[player.PLAYER_ID]
+
+        # Set the stats on the stored player
+        for name,val of player
+          name = "#{keyprefix}_#{name}" if name in prefix
+          db[name.toLowerCase()] = val
+
+
+  wroteHeaders = false
+  for pid, stats of players
+    stathead = Object.keys(stats)
+    if !wroteHeaders
+      console.log stathead.join(',')
+      wroteHeaders = true
+
+    vals = []
+    for _, val of stats
+      vals.push val
+    console.log vals.join(',')
+
+

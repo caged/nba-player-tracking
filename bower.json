@@ -1,0 +1,7 @@
+{
+  "name": "NAME HERE",
+  "dependencies": {
+    "d3": "3",
+    "d3-tip": "0"
+  }
+}

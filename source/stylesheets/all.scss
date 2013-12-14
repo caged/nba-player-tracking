@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+body {
+  background: #fff;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+.option {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+
+  select {
+    margin-left: 5px;
+  }
+}
+
+.domain {
+  fill: none;
+  stroke: #333;
+  stroke-width: 1;
+}
+
+.tick text {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+.tick line {
+  stroke: #333;
+  stroke-width: 1;
+}
+
+.player.por {
+  fill: red;
+  stroke: #c00;
+}
+
+.matrix {
+  font-size: 10px;
+
+  .tick text {
+    font-size: 10px;
+  }
+
+  .frame {
+    shape-rendering: crispedges;
+    fill: none;
+    stroke: #999;
+  }
+
+  .axis line {
+    stroke: #ddd;
+    shape-rendering: crispedges;
+  }
+
+  .axis path {
+    display: none;
+  }
+}
+
