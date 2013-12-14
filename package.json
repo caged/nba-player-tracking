@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "ya-csv": "0.9",
     "glob": "3.2"
   }
 }

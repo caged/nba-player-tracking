@@ -1,5 +1,4 @@
 #!/usr/bin/env coffee
-csv = require 'csv'
 fs  = require 'fs'
 glob = require 'glob'
 vm   = require 'vm'
