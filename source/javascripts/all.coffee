@@ -1,9 +1,11 @@
 width   = 1500
-size    = 150
+size    = 250
 padding = 15
 
 x = d3.scale.linear().range [padding / 2, size - padding / 2]
 y = d3.scale.linear().range [size - padding / 2, padding / 2]
+xreg = d3.scale.linear().range [padding / 2, size - padding / 2]
+yreg = d3.scale.linear().range [size - padding / 2, padding / 2]
 
 xax = d3.svg.axis().scale(x).orient('bottom').ticks(5)
 yax = d3.svg.axis().scale(y).orient('left').ticks(5)
@@ -18,7 +20,7 @@ dataLoaded = (error, data) ->
       props.push key
       extents[key] = d3.extent data, (d) -> d[key]
 
-  props = props.slice(0, 20)
+  props = props.slice(0, 15)
 
   len = props.length
   crossed = cross props, props
@@ -66,8 +68,20 @@ dataLoaded = (error, data) ->
       .enter().append('circle')
         .attr('cx', (d) -> x d[p.x])
         .attr('cy', (d) -> y d[p.y])
-        .attr('r', 1)
+        .attr('r', 2)
         .attr('class', (d) -> "#{d.position.toLowerCase().split('-')[0]}")
+
+      regdata = data.map (d) -> [d[p.x], d[p.y]]
+      reg = regression 'exponential', regdata
+      xreg.domain(d3.extent reg.points, (d) -> d[0])
+      yreg.domain(d3.extent reg.points, (d) -> d[1])
+
+      path = d3.svg.line().x((d) -> xreg d[0]).y((d) -> yreg d[1])
+
+      el.append('path')
+        .datum(reg.points)
+        .attr('d', path)
+        .attr('class', 'regression')
 
   cell = vis.selectAll('.cell')
     .data(crossed)

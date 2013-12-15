@@ -45,6 +45,8 @@ glob 'data/*.json', (err, paths) ->
           tmpplayer[hdr] = new Date(stat)
         else if hdr.toLowerCase() == 'height'
           tmpplayer[hdr] = heightToInches stat
+        else if hdr.toLowerCase() == 'exp'
+          tmpplayer[hdr] = if stat == 'R' then 0 else stat
         else
           tmpplayer[hdr] = stat.toString().replace(',', '')
 

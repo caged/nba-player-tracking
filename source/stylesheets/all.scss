@@ -67,6 +67,11 @@ body {
   .label {
     font-weight: bold;
   }
+
+  .regression {
+    fill: none;
+    stroke: red;
+  }
 }
 
 .g { fill: purple; }
