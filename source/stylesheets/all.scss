@@ -48,6 +48,11 @@ body {
     shape-rendering: crispedges;
     fill: none;
     stroke: #999;
+    stroke-width: 1;
+  }
+
+  .frame.master {
+    stroke: red;
   }
 
   .axis line {
@@ -58,5 +63,13 @@ body {
   .axis path {
     display: none;
   }
+
+  .label {
+    font-weight: bold;
+  }
 }
+
+.g { fill: purple; }
+.c { fill: dodgerblue; }
+.f { fill: green; }
 

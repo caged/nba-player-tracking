@@ -1,5 +1,5 @@
 width   = 1500
-size    = 100
+size    = 150
 padding = 15
 
 x = d3.scale.linear().range [padding / 2, size - padding / 2]
@@ -14,9 +14,11 @@ dataLoaded = (error, data) ->
   extents = {}
 
   for key,val of data[0]
-    if !isNaN(parseFloat(val)) and key not in ['player_id', 'num', 'leagueid', 'season', 'teamid']
+    if !isNaN(parseFloat(val)) and key not in ['player_id', 'num', 'leagueid', 'season', 'teamid', 'gp']
       props.push key
       extents[key] = d3.extent data, (d) -> d[key]
+
+  props = props.slice(0, 20)
 
   len = props.length
   crossed = cross props, props
@@ -46,11 +48,11 @@ dataLoaded = (error, data) ->
     .each((d) -> y.domain(extents[d]); d3.select(this).call(yax))
 
   plot = (p) ->
-    cell = d3.select this
+    el = d3.select this
     x.domain extents[p.x]
     y.domain extents[p.y]
 
-    cell.append('rect')
+    el.append('rect')
       .attr('class', 'frame')
       .attr('x', padding / 2)
       .attr('y', padding / 2)
@@ -58,12 +60,14 @@ dataLoaded = (error, data) ->
       .attr('height', size - padding)
       .classed('master', (d) -> d.x == d.y)
 
-    cell.selectAll('circle')
-      .data(data)
-    .enter().append('circle')
-      .attr('cx', (d) -> x d[p.x])
-      .attr('cy', (d) -> y d[p.y])
-      .attr('r', 1)
+    if p.x != p.y
+      el.selectAll('circle')
+        .data(data)
+      .enter().append('circle')
+        .attr('cx', (d) -> x d[p.x])
+        .attr('cy', (d) -> y d[p.y])
+        .attr('r', 1)
+        .attr('class', (d) -> "#{d.position.toLowerCase().split('-')[0]}")
 
   cell = vis.selectAll('.cell')
     .data(crossed)
@@ -75,7 +79,9 @@ dataLoaded = (error, data) ->
   cell.filter((d) -> d.i == d.j).append('text')
     .attr('x', padding)
     .attr('y', padding)
-    .attr('dy', '.7em')
+    .attr('dy', 5)
+    .attr('dx', -5)
+    .attr('class', 'label')
     .text((d) -> d.x)
 
 cross = (a, b) ->
@@ -90,5 +96,6 @@ d3.csv('players.csv')
     for key,val of player
       str = parseFloat val
       player[key] = str if !isNaN(str)
+      player[key] = 0 if val == ''
     player)
   .get(dataLoaded)
