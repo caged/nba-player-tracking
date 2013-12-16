@@ -1,6 +1,8 @@
+#= require mappings
+
 width   = 1500
-size    = 250
-padding = 15
+size    = 200
+padding = 30
 
 x = d3.scale.linear().range [padding / 2, size - padding / 2]
 y = d3.scale.linear().range [size - padding / 2, padding / 2]
@@ -9,6 +11,9 @@ yreg = d3.scale.linear().range [size - padding, padding]
 
 xax = d3.svg.axis().scale(x).orient('bottom').ticks(5)
 yax = d3.svg.axis().scale(y).orient('left').ticks(5)
+
+labelForKey = (key) ->
+  __mappings.filter((d) -> d.k == key)?[0]?.v
 
 dataLoaded = (error, data) ->
   data    = data.filter (d) -> d.min >= 20.0 and d.gp >= 10
@@ -20,7 +25,7 @@ dataLoaded = (error, data) ->
       props.push key
       extents[key] = d3.extent data, (d) -> d[key]
 
-  props = props.slice(0, 15)
+  # props = props.slice(0, 15)
 
   len = props.length
   crossed = cross props, props
@@ -68,7 +73,7 @@ dataLoaded = (error, data) ->
       .enter().append('circle')
         .attr('cx', (d) -> x d[p.x])
         .attr('cy', (d) -> y d[p.y])
-        .attr('r', 2)
+        .attr('r', 1.5)
         .attr('class', (d) -> "#{d.position.toLowerCase().split('-')[0]}")
 
   cell = vis.selectAll('.cell')
@@ -84,7 +89,7 @@ dataLoaded = (error, data) ->
     .attr('dy', 5)
     .attr('dx', -5)
     .attr('class', 'label')
-    .text((d) -> d.x)
+    .text((d) -> labelForKey(d.x) or d.x)
 
 cross = (a, b) ->
   c = []
