@@ -85,7 +85,7 @@ glob 'data/*.js', (err, paths) ->
 
         # Set the stats on the stored player
         for name,val of player
-          name = "#{keyprefix}_#{name}" if name in prefix
+          name = "#{keyprefix}_#{name}" if name in prefix and prefix is not 'touches'
           db[name.toLowerCase()] = val
 
   wroteHeaders = false
