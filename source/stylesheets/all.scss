@@ -38,6 +38,10 @@ body {
 }
 
 .matrix {
+  * {
+    pointer-events: none;
+  }
+
   font-size: 10px;
 
   .tick text {
