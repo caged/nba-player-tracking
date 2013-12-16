@@ -4,8 +4,8 @@ padding = 15
 
 x = d3.scale.linear().range [padding / 2, size - padding / 2]
 y = d3.scale.linear().range [size - padding / 2, padding / 2]
-xreg = d3.scale.linear().range [padding / 2, size - padding / 2]
-yreg = d3.scale.linear().range [size - padding / 2, padding / 2]
+xreg = d3.scale.linear().range [padding, size - padding]
+yreg = d3.scale.linear().range [size - padding, padding]
 
 xax = d3.svg.axis().scale(x).orient('bottom').ticks(5)
 yax = d3.svg.axis().scale(y).orient('left').ticks(5)
@@ -70,18 +70,6 @@ dataLoaded = (error, data) ->
         .attr('cy', (d) -> y d[p.y])
         .attr('r', 2)
         .attr('class', (d) -> "#{d.position.toLowerCase().split('-')[0]}")
-
-      regdata = data.map (d) -> [d[p.x], d[p.y]]
-      reg = regression 'exponential', regdata
-      xreg.domain(d3.extent reg.points, (d) -> d[0])
-      yreg.domain(d3.extent reg.points, (d) -> d[1])
-
-      path = d3.svg.line().x((d) -> xreg d[0]).y((d) -> yreg d[1])
-
-      el.append('path')
-        .datum(reg.points)
-        .attr('d', path)
-        .attr('class', 'regression')
 
   cell = vis.selectAll('.cell')
     .data(crossed)
