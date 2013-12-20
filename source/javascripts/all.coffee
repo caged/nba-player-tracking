@@ -8,6 +8,7 @@ x = d3.scale.linear().range [padding / 2, size - padding / 2]
 y = d3.scale.linear().range [size - padding / 2, padding / 2]
 xreg = d3.scale.linear().range [padding, size - padding]
 yreg = d3.scale.linear().range [size - padding, padding]
+color = d3.scale.ordinal().domain(['f', 'c', 'g']).range ['green', 'dodgerblue', 'purple']
 
 xax = d3.svg.axis().scale(x).orient('bottom').ticks(5)
 yax = d3.svg.axis().scale(y).orient('left').ticks(5)
@@ -25,7 +26,7 @@ dataLoaded = (error, data) ->
       props.push key
       extents[key] = d3.extent data, (d) -> d[key]
 
-  props = props.slice(0, 25)
+  #props = props.slice(0, 15)
 
   len = props.length
   crossed = cross props, props
@@ -39,6 +40,7 @@ dataLoaded = (error, data) ->
     .attr('class', 'matrix')
   .append('g')
     .attr('transform', "translate(#{padding},#{padding / 2})")
+    .style('font', '10px "Helvetica Neue"')
 
   vis.selectAll('.x.axis')
     .data(props)
@@ -54,6 +56,9 @@ dataLoaded = (error, data) ->
     .attr('transform', (d, i) -> "translate(0, #{i * size})")
     .each((d) -> y.domain(extents[d]); d3.select(this).call(yax))
 
+  vis.selectAll('.axis line')
+    .style('stroke', '#ddd')
+
   plot = (p) ->
     el = d3.select this
     x.domain extents[p.x]
@@ -66,6 +71,10 @@ dataLoaded = (error, data) ->
       .attr('width', size - padding)
       .attr('height', size - padding)
       .classed('master', (d) -> d.x == d.y)
+      .style('stroke', (d) -> if d.x == d.y then 'tomato' else '#999')
+      .style('stroke-width', (d) -> if d.x == d.y then 2 else 1)
+      .style(fill: 'none', 'shape-rendering': 'crispedges')
+
 
     if p.x != p.y
       el.selectAll('circle')
@@ -74,7 +83,7 @@ dataLoaded = (error, data) ->
         .attr('cx', (d) -> x d[p.x])
         .attr('cy', (d) -> y d[p.y])
         .attr('r', 1.5)
-        .attr('class', (d) -> "#{d.position.toLowerCase().split('-')[0]}")
+        .style('fill', (d) -> color d.position.toLowerCase().split('-')[0])
 
   cell = vis.selectAll('.cell')
     .data(crossed)
@@ -90,6 +99,12 @@ dataLoaded = (error, data) ->
     .attr('dx', -5)
     .attr('class', 'label')
     .text((d) -> labelForKey(d.x) or d.x)
+    .style('font-weight', 'bold')
+
+  vis.selectAll('.domain')
+    .style(
+      fill: 'none'
+      'stroke-width': 0)
 
 cross = (a, b) ->
   c = []
