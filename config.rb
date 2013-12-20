@@ -45,11 +45,13 @@
 # activate :automatic_image_sizes
 
 # Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
-# end
+helpers do
+  require 'json'
+
+  def metrics
+    @metrics ||= JSON.parse(File.read('source/metrics.json'))
+  end
+end
 
 set :css_dir, 'stylesheets'
 
