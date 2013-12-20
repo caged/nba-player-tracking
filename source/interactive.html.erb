@@ -1,46 +1,98 @@
 <section id="content">
-  <aside id="properties">
-    <div class="category">
-      <h2>General</h2>
-      <%= partial :options, :locals => { :metric => 'general' } %>
-    </div>
-    <div class="category">
-      <h2>Defense</h2>
-      <%= partial :options, :locals => { :metric => 'defense' } %>
-    </div>
-    <div class="category">
-      <h2>Rebounding</h2>
-      <%= partial :options, :locals => { :metric => 'rebounding' } %>
-    </div>
-    <div class="category">
-      <h2>Speed</h2>
-      <%= partial :options, :locals => { :metric => 'speed' } %>
-    </div>
-    <div class="category">
-      <h2>Passing</h2>
-      <%= partial :options, :locals => { :metric => 'passing' } %>
-    </div>
-    <div class="category">
-      <h2>Touches</h2>
-      <%= partial :options, :locals => { :metric => 'touches' } %>
-    </div>
-    <div class="category">
-      <h2>Shooting</h2>
-      <%= partial :options, :locals => { :metric => 'shooting' } %>
-    </div>
-    <div class="category">
-      <h2>Catch and Shoot</h2>
-      <%= partial :options, :locals => { :metric => 'catch_shoot' } %>
-    </div>
-    <div class="category">
-      <h2>Pull-ups</h2>
-      <%= partial :options, :locals => { :metric => 'pull_ups' } %>
-    </div>
-    <div class="category">
-      <h2>Drives</h2>
-      <%= partial :options, :locals => { :metric => 'drives' } %>
-    </div>
+  <aside id="stats">
+    <ul id="stat-type" class="js-tabs tabs">
+      <li class="tab selected"><a href="#stats-x">X Stat</a></li>
+      <li class="tab"><a href="#stats-y">Y Stat</a></li>
+    </ul>
+    <section id="stats-x" class="js-stats-x js-tab-panel stat-group">
+      <h2 class="stat-head">Choose a stat for x</h2>
+      <div class="category">
+        <h2>General</h2>
+        <%= partial :options, :locals => { :metric => 'general' } %>
+      </div>
+      <div class="category">
+        <h2>Defense</h2>
+        <%= partial :options, :locals => { :metric => 'defense' } %>
+      </div>
+      <div class="category">
+        <h2>Rebounding</h2>
+        <%= partial :options, :locals => { :metric => 'rebounding' } %>
+      </div>
+      <div class="category">
+        <h2>Speed</h2>
+        <%= partial :options, :locals => { :metric => 'speed' } %>
+      </div>
+      <div class="category">
+        <h2>Passing</h2>
+        <%= partial :options, :locals => { :metric => 'passing' } %>
+      </div>
+      <div class="category">
+        <h2>Touches</h2>
+        <%= partial :options, :locals => { :metric => 'touches' } %>
+      </div>
+      <div class="category">
+        <h2>Shooting</h2>
+        <%= partial :options, :locals => { :metric => 'shooting' } %>
+      </div>
+      <div class="category">
+        <h2>Catch and Shoot</h2>
+        <%= partial :options, :locals => { :metric => 'catch_shoot' } %>
+      </div>
+      <div class="category">
+        <h2>Pull-ups</h2>
+        <%= partial :options, :locals => { :metric => 'pull_ups' } %>
+      </div>
+      <div class="category">
+        <h2>Drives</h2>
+        <%= partial :options, :locals => { :metric => 'drives' } %>
+      </div>
+    </section>
+
+    <section id="stats-y" class="js-stats-y js-tab-panel hidden stat-group">
+      <h2 class="stat-head">Choose a stat for y</h2>
+      <div class="category">
+        <h2>General</h2>
+        <%= partial :options, :locals => { :metric => 'general' } %>
+      </div>
+      <div class="category">
+        <h2>Defense</h2>
+        <%= partial :options, :locals => { :metric => 'defense' } %>
+      </div>
+      <div class="category">
+        <h2>Rebounding</h2>
+        <%= partial :options, :locals => { :metric => 'rebounding' } %>
+      </div>
+      <div class="category">
+        <h2>Speed</h2>
+        <%= partial :options, :locals => { :metric => 'speed' } %>
+      </div>
+      <div class="category">
+        <h2>Passing</h2>
+        <%= partial :options, :locals => { :metric => 'passing' } %>
+      </div>
+      <div class="category">
+        <h2>Touches</h2>
+        <%= partial :options, :locals => { :metric => 'touches' } %>
+      </div>
+      <div class="category">
+        <h2>Shooting</h2>
+        <%= partial :options, :locals => { :metric => 'shooting' } %>
+      </div>
+      <div class="category">
+        <h2>Catch and Shoot</h2>
+        <%= partial :options, :locals => { :metric => 'catch_shoot' } %>
+      </div>
+      <div class="category">
+        <h2>Pull-ups</h2>
+        <%= partial :options, :locals => { :metric => 'pull_ups' } %>
+      </div>
+      <div class="category">
+        <h2>Drives</h2>
+        <%= partial :options, :locals => { :metric => 'drives' } %>
+      </div>
+    </section>
   </aside>
+
   <section id="main">
     main section
   </section>
