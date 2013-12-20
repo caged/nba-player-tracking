@@ -33,7 +33,7 @@ dataLoaded = (error, data) ->
   xax.tickSize size * len
   yax.tickSize -size * len
 
-  vis = d3.select(document.body).append('svg')
+  vis = d3.select('.js-matrix').append('svg')
     .attr('width', size * len + padding)
     .attr('height', size * len + padding)
     .attr('class', 'matrix')
