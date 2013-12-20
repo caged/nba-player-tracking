@@ -1,9 +1,27 @@
-window.__mappings = [
+mappings = [
   k: "gp"
   v: "Games"
 ,
   k: "min"
   v: "MIN per game"
+,
+  k: "stl"
+  v: "STL per game"
+,
+  k: "blk"
+  v: "BLK per game"
+,
+  k: "blk_tot"
+  v: "Total BLK"
+,
+  k: "fgm_defend_rim"
+  v: "Opp FGM at Rim per game"
+,
+  k: "fga_defend_rim"
+  v: "Opp FGA at Rim per game"
+,
+  k: "fgp_defend_rim"
+  v: "Opp FGP at Rim per game"
 ,
   k: "dist"
   v: "Distance Traveled (total miles)"
@@ -218,3 +236,5 @@ window.__mappings = [
   k: "shooting_efg_pct"
   v: "eFG%"
 ]
+
+if typeof window isnt "undefined" then window.__mappings = mappings else module.exports = mappings

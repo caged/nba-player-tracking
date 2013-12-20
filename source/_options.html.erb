@@ -1,0 +1,8 @@
+<span class="options">
+  <select name="<%= metric %>" class="options">
+    <option>Choose <%= metric.gsub('_', ' ') %> category</option>
+    <% metrics[metric].each do |m| %>
+    <option value="<%= m['k'] %>"><%= m['v'] %></option>
+    <% end %>
+  </select>
+</span>

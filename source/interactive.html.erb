@@ -1,3 +1,47 @@
-<div class="js-interactive">
-
-</div>
+<section id="content">
+  <aside id="properties">
+    <div class="category">
+      <h2>General</h2>
+      <%= partial :options, :locals => { :metric => 'general' } %>
+    </div>
+    <div class="category">
+      <h2>Defense</h2>
+      <%= partial :options, :locals => { :metric => 'defense' } %>
+    </div>
+    <div class="category">
+      <h2>Rebounding</h2>
+      <%= partial :options, :locals => { :metric => 'rebounding' } %>
+    </div>
+    <div class="category">
+      <h2>Speed</h2>
+      <%= partial :options, :locals => { :metric => 'speed' } %>
+    </div>
+    <div class="category">
+      <h2>Passing</h2>
+      <%= partial :options, :locals => { :metric => 'passing' } %>
+    </div>
+    <div class="category">
+      <h2>Touches</h2>
+      <%= partial :options, :locals => { :metric => 'touches' } %>
+    </div>
+    <div class="category">
+      <h2>Shooting</h2>
+      <%= partial :options, :locals => { :metric => 'shooting' } %>
+    </div>
+    <div class="category">
+      <h2>Catch and Shoot</h2>
+      <%= partial :options, :locals => { :metric => 'catch_shoot' } %>
+    </div>
+    <div class="category">
+      <h2>Pull-ups</h2>
+      <%= partial :options, :locals => { :metric => 'pull_ups' } %>
+    </div>
+    <div class="category">
+      <h2>Drives</h2>
+      <%= partial :options, :locals => { :metric => 'drives' } %>
+    </div>
+  </aside>
+  <section id="main">
+    main section
+  </section>
+</section>
