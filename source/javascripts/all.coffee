@@ -25,7 +25,7 @@ dataLoaded = (error, data) ->
       props.push key
       extents[key] = d3.extent data, (d) -> d[key]
 
-  # props = props.slice(0, 15)
+  props = props.slice(0, 25)
 
   len = props.length
   crossed = cross props, props
@@ -103,6 +103,6 @@ d3.csv('players.csv')
     for key,val of player
       str = parseFloat val
       player[key] = str if !isNaN(str)
-      player[key] = 0 if val == ''
+      player[key] = 0 if val in ['', ' ', '-']
     player)
   .get(dataLoaded)
