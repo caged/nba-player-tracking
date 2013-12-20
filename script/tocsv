@@ -3,6 +3,7 @@ fs  = require 'fs'
 glob = require 'glob'
 vm   = require 'vm'
 path = require 'path'
+mappings = require '../source/javascripts/mappings'
 
 
 prefix = [
@@ -17,8 +18,27 @@ prefix = [
   'PTS_TOT'
 ]
 
+metricsSkip = [
+  'GP'
+  'MIN'
+  'PLAYER_ID'
+  'PLAYER'
+  'FIRST_NAME'
+  'LAST_NAME'
+  'TEAM_ABBREVIATION'
+]
+
 players = {}
+metrics = {}
 headers = []
+
+metrics.general = [
+  { k: 'height', v: 'Height' }
+  { k: 'weight', v: 'Weight' }
+  { k: 'age',    v: 'Age' }
+  { k:'exp',     v: 'Experience' }
+]
+
 
 # Convert strings like 6-11 to their inch equivelant
 #
@@ -31,7 +51,7 @@ heightToInches = (height) ->
 # metadata including position, height, weight, etc.
 #
 # returns nothing
-glob 'data/*.json', (err, paths) ->
+glob 'data/teams/*.json', (err, paths) ->
   for location in paths
     data = JSON.parse(fs.readFileSync location, 'utf8')
     pheaders = data.resultSets[0].headers.map (h) -> h.toLowerCase()
@@ -57,7 +77,7 @@ glob 'data/*.json', (err, paths) ->
 # above
 #
 # Returns nothing
-glob 'data/*.js', (err, paths) ->
+glob 'data/stats/*.js', (err, paths) ->
   for location in paths
     data = fs.readFileSync(location, 'utf8')
     sandbox = {}
@@ -68,6 +88,7 @@ glob 'data/*.js', (err, paths) ->
       rs = sandbox[key].resultSets[0]
       headers = headers.concat rs.headers
 
+    # Remove duplicate headers
     headers = headers.filter (val, index, obj) -> obj.indexOf(val) == index
 
     for key of sandbox
@@ -75,17 +96,28 @@ glob 'data/*.js', (err, paths) ->
       keys = rs.headers
       keyprefix = path.basename(location).replace('.js', '').replace('-', '_')
 
+      metrics[keyprefix] = headers.filter((h) -> h not in metricsSkip)
+        .map (h) ->
+          if h in prefix and keyprefix not in ['touches', 'defense']
+            mkey = "#{keyprefix}_#{h.toLowerCase()}"
+          else
+            mkey = h.toLowerCase()
+
+          v = mappings.filter((m) -> m.k == mkey)[0]?.v
+          {k: mkey, v: v}
+
       # Loop through current advanced stat file and add the stats to the
       # player previously created or create the player
       for stat in rs.rowSet
         player = {}
         player[keys[i]] = val for val,i in stat
+
         db = players[player.PLAYER_ID]
         continue if !db
 
         # Set the stats on the stored player
         for name,val of player
-          name = "#{keyprefix}_#{name}" if name in prefix and prefix is not 'touches'
+          name = "#{keyprefix}_#{name}" if name in prefix and keyprefix isnt 'touches'
           db[name.toLowerCase()] = val
 
   wroteHeaders = false
@@ -99,5 +131,7 @@ glob 'data/*.js', (err, paths) ->
     for _, val of stats
       vals.push val
     console.log vals.join(',')
+
+  fs.writeFileSync('source/metrics.json', JSON.stringify(metrics))
 
 

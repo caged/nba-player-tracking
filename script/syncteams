@@ -7,6 +7,6 @@ url="http://stats.nba.com/stats/leaguedashteamstats?Season=2013-14&AllStarSeason
 teamids=$(curl ${url} | jq '.resultSets[].rowSet[][0]')
 
 for teamid in ${teamids}; do
-  curl -# -o data/${teamid}.json "http://stats.nba.com/stats/commonteamroster/?Season=2013-14&LeagueID=00&TeamID=${teamid}"
+  curl -# -o data/teams/${teamid}.json "http://stats.nba.com/stats/commonteamroster/?Season=2013-14&LeagueID=00&TeamID=${teamid}"
 done
 
