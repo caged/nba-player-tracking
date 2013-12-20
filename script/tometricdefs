@@ -1,0 +1,70 @@
+#!/usr/bin/env coffee
+fs  = require 'fs'
+glob = require 'glob'
+vm   = require 'vm'
+path = require 'path'
+mappings = require '../source/javascripts/mappings'
+
+metricsSkip = [
+  'GP'
+  'MIN'
+  'PLAYER_ID'
+  'PLAYER'
+  'FIRST_NAME'
+  'LAST_NAME'
+  'TEAM_ABBREVIATION'
+]
+
+needPrefix = [
+  'PTS',
+  'FGM',
+  'FGA',
+  'FG_PCT',
+  'FG3M',
+  'FG3A',
+  'FG3_PCT',
+  'EFG_PCT',
+  'PTS_TOT'
+]
+
+glob 'data/stats/*.js', (err, paths) ->
+  if err
+    console.log err
+    return
+
+  out =
+    general: [
+      { k: 'height', v: 'Height' }
+      { k: 'weight', v: 'Weight' }
+      { k: 'age',    v: 'Age' }
+      { k:'exp',     v: 'Experience' }
+    ]
+
+  for location in paths
+    data = fs.readFileSync(location, 'utf8')
+    sandbox = {}
+    vm.runInNewContext data.toString(), sandbox
+
+    for key of sandbox
+      rs = sandbox[key].resultSets[0]
+      keyprefix = path.basename(location)
+        .replace('.js', '')
+        .replace('-', '_')
+
+      statheaders = []
+      relevantHeaders = rs.headers.filter((h) -> h not in metricsSkip)
+
+      for header in relevantHeaders
+        if header in needPrefix and keyprefix isnt 'touches'
+          mkey = "#{keyprefix}_#{header.toLowerCase()}"
+        else
+          mkey = header.toLowerCase()
+
+        match = mappings.filter((m) -> m.k == mkey)
+        statheaders.push k: mkey, v: match[0].v if match[0]
+
+      out[keyprefix] = statheaders
+
+
+  fs.writeFileSync('source/metrics.json', JSON.stringify(out))
+
