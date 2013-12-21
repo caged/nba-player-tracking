@@ -27,8 +27,7 @@ render = ->
   tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-2, 0])
-    .html (d) ->
-      "#{d.team_abbreviation}: #{d.player} (#{d.position})"
+    .html (d) -> "#{d.team_abbreviation}: #{d.player} (#{d.position})"
 
   vis = el.append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -98,6 +97,8 @@ render = ->
 
       points.exit().remove()
 
+      updateTopListsForStats(stats)
+
 
     refreshStats = ->
       xstat = el.attr 'data-x'
@@ -128,6 +129,34 @@ render = ->
       el.attr "data-#{axis}", stat
       redraw()
 
+
+    updateTopListsForStats = (stats) ->
+      xkey = stats.xstat.k
+      ykey = stats.ystat.k
+
+      topx = data.sort((a, b) -> d3.descending a[xkey], b[xkey])[0..9]
+      topy = data.sort((a, b) -> d3.descending a[ykey], b[ykey])[0..9]
+
+      d3.select('.js-top-y-label').text stats.ystat.v
+      d3.select('.js-top-x-label').text stats.xstat.v
+
+      yrow = d3.select('.js-top-y').selectAll('tr')
+        .data(topy)
+      .enter().append('tr')
+
+      yrow.append('td').text (d) -> d.player
+      yrow.append('td').text (d) -> d.team_abbreviation
+      yrow.append('td').text (d) -> d[ykey].toFixed(1)
+
+      xrow = d3.select('.js-top-x').selectAll('tr')
+        .data(topx)
+      .enter().append('tr')
+
+      xrow.append('td').text (d) -> d.player
+      xrow.append('td').text (d) -> d.team_abbreviation
+      xrow.append('td').text (d) -> d[xkey].toFixed(1)
+
+    # Initialize the chart
     redraw()
 
 

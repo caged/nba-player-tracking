@@ -15,7 +15,7 @@ html, body, #content {
 }
 
 h1,h2, h3 {
-  font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "Varela Round", "Source Sans Pro", "Helvetica Neue", Helvetica, sans-serif;
 }
 
 a {
@@ -30,12 +30,13 @@ body {
 }
 
 .header {
-  padding: 20px;
-  border-bottom: 1px solid #eee;
+  padding: 30px 20px;
   background: #262a30;
   color: #fff;
-  border-bottom: 1px solid #202228;
-  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(0, 0, 0, 0.9),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1);
 
   h1 {
     -webkit-font-smoothing: antialiased;
@@ -43,7 +44,7 @@ body {
     -ms-font-smoothing: antialiased;
     font-smoothing: antialiased;
 
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 600;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   }
@@ -134,7 +135,7 @@ body {
 .tabs {
   display: inline-block;
   -webkit-box-sizing: border-box;
-  margin: 20px;
+  margin: 12px 10px;
   padding: 0;
 }
 
@@ -145,7 +146,7 @@ body {
   text-align: center;
 
   a {
-    padding: 10px;
+    padding: 9px;
     display: block;
     text-decoration: none;
     border: 1px solid #ccc;
@@ -180,7 +181,7 @@ body {
 ////////////////////////////////////////////////////////////////////////////////
 .scatterplot-header {
   border-bottom: 1px solid #eee;
-  padding: 19px;
+  padding: 10px;
 
   &:after {
     display: table;
@@ -266,14 +267,42 @@ path.domain { fill: none; }
   line-height: 1;
   font-weight: bold;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   color: #333;
   border-radius: 2px;
   border: 1px solid #eee;
   white-space: nowrap;
 }
 
-// .d3-tip.animate {
-//   animation: bounceIn 0.1s ease-out;
-//   -webkit-animation: bounceIn 0.1s ease-out;
-// }
+////////////////////////////////////////////////////////////////////////////////
+// =top lists
+////////////////////////////////////////////////////////////////////////////////
+.top-list-content {
+  @include flexbox;
+  -webkit-justify-content: space-between;
+}
+
+.top-list {
+  @include flex(1);
+  margin: 0 20px 20px 20px;
+
+  h3 {
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-bottom: none;
+    background: #f7f7f7;
+    border-top-right-radius: 2px;
+    border-top-left-radius: 2px;
+  }
+}
+
+.top-list-data {
+  width: 100%;
+  border-collapse: collapse;
+
+  td {
+    padding: 10px;
+    border: 1px solid #eee;
+  }
+}
