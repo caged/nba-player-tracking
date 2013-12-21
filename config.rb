@@ -33,6 +33,8 @@
 # end
 
 # Proxy (fake) files
+activate :directory_indexes
+#proxy '/interactive', '/interactive.html', :content_type => 'text/html'
 # page "/this-page-has-no-template.html", :proxy => "/template-file.html" do
 #   @which_fake_page = "Rendering a fake page with a variable"
 # end
