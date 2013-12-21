@@ -6,6 +6,10 @@
 
 .hidden { display: none }
 
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+ }
+
 html, body, #content {
   height: 100%;
 }
@@ -47,10 +51,14 @@ body {
 
 #content {
   @include flexbox;
-  box-sizing: border-box;
+}
+
+#main {
+  @include flex(1);
 }
 
 #stats {
+  width: 300px;
   border-right: 1px solid #eee;
 }
 
@@ -93,7 +101,7 @@ body {
 
   &:after {
     line-height: 1;
-    padding: 5px 10px;
+    padding: 9px 10px 5px 10px;
     display: inline-block;
     text-decoration: none;
     -webkit-font-smoothing: antialiased;
@@ -104,7 +112,8 @@ body {
     color: #777;
     top: 0;
     pointer-events: none;
-    font-size: 14px;
+    font-size: 10px;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 1);
   }
 }
 
@@ -123,9 +132,8 @@ body {
 ////////////////////////////////////////////////////////////////////////////////
 
 .tabs {
-  width: 200px;
   display: inline-block;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   margin: 20px;
   padding: 0;
 }
