@@ -17,44 +17,39 @@ render = ->
     .attr('transform', "translate(#{margin.left},#{margin.top})")
 
   dataLoaded = (error, data) ->
+    data = data.filter (d) -> d.min >= 20 and d.gp >= 10
 
     redraw = ->
-      stats = getUpdatedStats()
-      console.log stats
+      stats = refreshStats()
 
-    getUpdatedStats = ->
-      xcat  = el.attr 'data-xcat'
-      ycat  = el.attr 'data-ycat'
+      xext = d3.extent data, (d) -> d[stats.xstat.k]
+      yext = d3.extent data, (d) -> d[stats.ystat.k]
+
+      console.log xext, yext
+
+    refreshStats = ->
       xstat = el.attr 'data-x'
       ystat = el.attr 'data-y'
 
-      categories = Object.keys __metrics
+      if not ystat
+        ystat = d3.shuffle(__metrics)[0]
+        el.attr 'data-y', ystat.k
+      else
+        ystat = __metrics.filter((v) -> v.k == ystat)[0]
 
-      if xcat and xstat
-        xstat = __metrics[xcat].filter((v) -> v.k == xstat)[0]
-
-      if ycat and ystat
-        ystat = __metrics[ycat].filter((v) -> v.k == ystat)[0]
-
-      if not xcat
-        xcat = d3.shuffle(categories)[0]
-        xstat = d3.shuffle(__metrics[xcat])[0]
-        el.attr 'data-xcat': xcat, 'data-x': xstat.k
-
-      if not ycat
-        ycat = d3.shuffle(categories)[0]
-        ystat = d3.shuffle(__metrics[ycat])[0]
-        el.attr 'data-ycat': ycat, 'data-y': ystat.k
+      if not xstat
+        xstat = d3.shuffle(__metrics)[0]
+        el.attr 'data-x', xstat.k
+      else
+        xstat = __metrics.filter((v) -> v.k == xstat)[0]
 
       {xstat, ystat}
 
     d3.selectAll('.js-stats .js-stat').on 'change', (e) ->
       select = d3.select this
       stat = @options[@selectedIndex].value
-      cat = select.attr 'name'
       axis = select.attr 'data-axis'
 
-      el.attr "data-#{axis}cat", cat
       el.attr "data-#{axis}", stat
       redraw()
 
