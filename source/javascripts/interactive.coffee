@@ -18,6 +18,10 @@ render = ->
 
   dataLoaded = (error, data) ->
 
+    redraw = ->
+      stats = getUpdatedStats()
+      console.log stats
+
     getUpdatedStats = ->
       xcat  = el.attr 'data-xcat'
       ycat  = el.attr 'data-ycat'
@@ -44,8 +48,6 @@ render = ->
 
       {xstat, ystat}
 
-    getUpdatedStats()
-
     d3.selectAll('.js-stats .js-stat').on 'change', (e) ->
       select = d3.select this
       stat = @options[@selectedIndex].value
@@ -54,7 +56,9 @@ render = ->
 
       el.attr "data-#{axis}cat", cat
       el.attr "data-#{axis}", stat
-      console.log getUpdatedStats()
+      redraw()
+
+    redraw()
 
 
   d3.csv('players.csv')
