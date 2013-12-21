@@ -1,99 +1,99 @@
 <section id="content">
-  <aside id="stats" class="js-stats" data-x="<%= req.params['x'] %>" data-y="<%= req.params['y'] %>">
+  <aside id="stats" class="js-stats">
     <ul id="stat-type" class="js-tabs tabs">
       <li class="tab selected"><a href="#stats-x">X Stat</a></li>
       <li class="tab"><a href="#stats-y">Y Stat</a></li>
     </ul>
-    <section id="stats-x" class="js-stats-x js-tab-panel stat-group">
+    <section id="stats-x" class="js-stats js-tab-panel stat-group" data-axis="x">
       <h2 class="stat-head">Choose a stat for x</h2>
       <div class="category">
         <h2>General</h2>
-        <%= partial :options, :locals => { :metric => 'general' } %>
+        <%= partial :options, :locals => { :metric => 'general', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Defense</h2>
-        <%= partial :options, :locals => { :metric => 'defense' } %>
+        <%= partial :options, :locals => { :metric => 'defense', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Rebounding</h2>
-        <%= partial :options, :locals => { :metric => 'rebounding' } %>
+        <%= partial :options, :locals => { :metric => 'rebounding', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Speed</h2>
-        <%= partial :options, :locals => { :metric => 'speed' } %>
+        <%= partial :options, :locals => { :metric => 'speed', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Passing</h2>
-        <%= partial :options, :locals => { :metric => 'passing' } %>
+        <%= partial :options, :locals => { :metric => 'passing', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Touches</h2>
-        <%= partial :options, :locals => { :metric => 'touches' } %>
+        <%= partial :options, :locals => { :metric => 'touches', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Shooting</h2>
-        <%= partial :options, :locals => { :metric => 'shooting' } %>
+        <%= partial :options, :locals => { :metric => 'shooting', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Catch and Shoot</h2>
-        <%= partial :options, :locals => { :metric => 'catch_shoot' } %>
+        <%= partial :options, :locals => { :metric => 'catch_shoot', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Pull-ups</h2>
-        <%= partial :options, :locals => { :metric => 'pull_ups' } %>
+        <%= partial :options, :locals => { :metric => 'pull_ups', :axis => 'x' } %>
       </div>
       <div class="category">
         <h2>Drives</h2>
-        <%= partial :options, :locals => { :metric => 'drives' } %>
+        <%= partial :options, :locals => { :metric => 'drives', :axis => 'x' } %>
       </div>
     </section>
 
-    <section id="stats-y" class="js-stats-y js-tab-panel hidden stat-group">
+    <section id="stats-y" class="js-stats js-tab-panel hidden stat-group" data-axis="y">
       <h2 class="stat-head">Choose a stat for y</h2>
       <div class="category">
         <h2>General</h2>
-        <%= partial :options, :locals => { :metric => 'general' } %>
+        <%= partial :options, :locals => { :metric => 'general', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Defense</h2>
-        <%= partial :options, :locals => { :metric => 'defense' } %>
+        <%= partial :options, :locals => { :metric => 'defense', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Rebounding</h2>
-        <%= partial :options, :locals => { :metric => 'rebounding' } %>
+        <%= partial :options, :locals => { :metric => 'rebounding', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Speed</h2>
-        <%= partial :options, :locals => { :metric => 'speed' } %>
+        <%= partial :options, :locals => { :metric => 'speed', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Passing</h2>
-        <%= partial :options, :locals => { :metric => 'passing' } %>
+        <%= partial :options, :locals => { :metric => 'passing', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Touches</h2>
-        <%= partial :options, :locals => { :metric => 'touches' } %>
+        <%= partial :options, :locals => { :metric => 'touches', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Shooting</h2>
-        <%= partial :options, :locals => { :metric => 'shooting' } %>
+        <%= partial :options, :locals => { :metric => 'shooting', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Catch and Shoot</h2>
-        <%= partial :options, :locals => { :metric => 'catch_shoot' } %>
+        <%= partial :options, :locals => { :metric => 'catch_shoot', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Pull-ups</h2>
-        <%= partial :options, :locals => { :metric => 'pull_ups' } %>
+        <%= partial :options, :locals => { :metric => 'pull_ups', :axis => 'y' } %>
       </div>
       <div class="category">
         <h2>Drives</h2>
-        <%= partial :options, :locals => { :metric => 'drives' } %>
+        <%= partial :options, :locals => { :metric => 'drives', :axis => 'y' } %>
       </div>
     </section>
   </aside>
 
   <section id="main">
-    main section
+    <div class="js-scatterplot" data-xcat="<%= req.params['xcat'] %>" data-ycat="<%= req.params['ycat'] %>" data-x="<%= req.params['x'] %>" data-y="<%= req.params['y'] %>"></div>
   </section>
 </section>
