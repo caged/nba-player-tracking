@@ -39,7 +39,6 @@ metrics.general = [
   { k:'exp',     v: 'Experience' }
 ]
 
-
 # Convert strings like 6-11 to their inch equivelant
 #
 # returns an integer
