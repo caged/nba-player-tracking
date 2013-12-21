@@ -140,23 +140,31 @@ render = ->
       d3.select('.js-top-y-label').text stats.ystat.v
       d3.select('.js-top-x-label').text stats.xstat.v
 
-      yrow = d3.select('.js-top-y').selectAll('tr')
-        .data(topy)
-      .enter().append('tr')
+      yrow = d3.select('.js-top-y').selectAll('tr').data(topy, (d) -> d.player_id)
+      xrow = d3.select('.js-top-x').selectAll('tr').data(topx, (d) -> d.player_id)
 
-      yrow.append('td').text (d) -> d.player
-      yrow.append('td').text (d) -> d.team_abbreviation
-      yrow.append('td').text (d) -> d[ykey].toFixed(1)
+      yrow.enter().append('tr').attr('data-player', (d) -> d.player)
+      xrow.enter().append('tr').attr('data-player', (d) -> d.player)
 
-      xrow = d3.select('.js-top-x').selectAll('tr')
-        .data(topx)
-      .enter().append('tr')
+      ycells = yrow.selectAll('td')
+        .data((d, i) -> ["##{i+1}", d.player, d.team_abbreviation, d[ykey].toFixed()])
 
-      xrow.append('td').text (d) -> d.player
-      xrow.append('td').text (d) -> d.team_abbreviation
-      xrow.append('td').text (d) -> d[xkey].toFixed(1)
+      xcells = xrow.selectAll('td')
+        .data((d, i) -> ["##{i+1}", d.player, d.team_abbreviation, d[xkey].toFixed()])
 
-    # Initialize the chart
+      ycells.enter().append('td').html((d) -> d)
+      xcells.enter().append('td').html((d) -> d)
+
+      ycells.exit().remove()
+      xcells.exit().remove()
+      yrow.exit().remove()
+      xrow.exit().remove()
+
+
+
+    # Main entry point
+    #
+    # Initialize the chart once the page and data has loaded
     redraw()
 
 

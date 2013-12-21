@@ -56,10 +56,13 @@ body {
 
 #main {
   @include flex(1);
+  border-left: 1px solid #eee;
+  height: 100%;
 }
 
 #stats {
   width: 300px;
+  height: 100%;
   border-right: 1px solid #eee;
 }
 
@@ -284,7 +287,6 @@ path.domain { fill: none; }
 
 .top-list {
   @include flex(1);
-  margin: 0 20px 20px 20px;
 
   h3 {
     font-weight: bold;
@@ -292,8 +294,14 @@ path.domain { fill: none; }
     border: 1px solid #eee;
     border-bottom: none;
     background: #f7f7f7;
-    border-top-right-radius: 2px;
-    border-top-left-radius: 2px;
+  }
+
+  &:first-child h3 {
+    border-right: none;
+  }
+
+  &:first-child {
+    border-right: 1px solid #fff;
   }
 }
 
@@ -305,4 +313,22 @@ path.domain { fill: none; }
     padding: 10px;
     border: 1px solid #eee;
   }
+
+  tr td:first-child {
+    font-weight: bold;
+    width: 1%;
+  }
+
+  tr td:nth-child(2) {
+    font-weight: bold;
+  }
+
+  tr td:last-child {
+    border-right: none;
+  }
+
+  tr:nth-child(even) td {
+    background: #fdfdfd;
+  }
+
 }
