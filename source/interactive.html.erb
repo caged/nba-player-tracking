@@ -94,6 +94,16 @@
   </aside>
 
   <section id="main">
-    <div class="js-scatterplot" data-xcat="<%= req.params['xcat'] %>" data-ycat="<%= req.params['ycat'] %>" data-x="<%= req.params['x'] %>" data-y="<%= req.params['y'] %>"></div>
+    <div class="js-scatterplot scatterplot" data-xcat="<%= req.params['xcat'] %>" data-ycat="<%= req.params['ycat'] %>" data-x="<%= req.params['x'] %>" data-y="<%= req.params['y'] %>">
+      <header class="scatterplot-header">
+        <h2 class="scatterplot-title"><span class="js-label-y"></span> vs. <span class="js-label-x"></span></h2>
+        <ul class="legend">
+          <li class="g">Guard</li>
+          <li class="f">Forward</li>
+          <li class="c">Center</li>
+        </ul>
+      </header>
+    </div>
+    <input class="js-url url" type="text" />
   </section>
 </section>
