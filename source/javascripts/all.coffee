@@ -1,5 +1,6 @@
 #= require mappings
 #= require matrix
+#= require interactive
 
 document.addEventListener 'DOMContentLoaded', (e) ->
   d3.selectAll('.js-tabs li').on 'click', (e) ->
