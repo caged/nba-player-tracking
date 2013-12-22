@@ -7,7 +7,7 @@ render = ->
   el = d3.select '.js-scatterplot'
   margin = top: 20, right: 20, bottom: 50, left: 60
   width = parseFloat(el.style('width')) - margin.left - margin.right
-  height = 500 - margin.top - margin.bottom
+  height = 450 - margin.top - margin.bottom
 
   x = d3.scale.linear().nice().range [0, width]
   y = d3.scale.linear().nice().range [height, 0]
@@ -143,8 +143,13 @@ render = ->
       yrow = d3.select('.js-top-y').selectAll('tr').data(topy, (d) -> d.player_id)
       xrow = d3.select('.js-top-x').selectAll('tr').data(topx, (d) -> d.player_id)
 
-      yrow.enter().append('tr').attr('data-player', (d) -> d.player)
-      xrow.enter().append('tr').attr('data-player', (d) -> d.player)
+      yrow.enter().append('tr')
+        .attr('data-id', (d) -> d.player_id)
+        .attr('data-team', (d) -> d.team_abbreviation)
+
+      xrow.enter().append('tr')
+      .attr('data-id', (d) -> d.player_id)
+      .attr('data-team', (d) -> d.team_abbreviation)
 
       ycells = yrow.selectAll('td')
         .data((d, i) -> ["##{i+1}", d.player, d.team_abbreviation, d[ykey].toFixed()])
@@ -159,8 +164,6 @@ render = ->
       xcells.exit().remove()
       yrow.exit().remove()
       xrow.exit().remove()
-
-
 
     # Main entry point
     #
