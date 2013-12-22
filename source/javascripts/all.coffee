@@ -3,8 +3,8 @@
 #= require interactive
 
 document.addEventListener 'DOMContentLoaded', (e) ->
-  d3.selectAll('.js-tabs li').on 'click', (e) ->
-    event.preventDefault()
+  d3.selectAll('.js-tabs li').on 'click', (event) ->
+    d3.event.preventDefault()
 
     d3.selectAll('.js-tabs li').classed 'selected', false
 
