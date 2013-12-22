@@ -27,7 +27,7 @@ render = ->
   tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-2, 0])
-    .html (d) -> "#{d.team_abbreviation}: #{d.player} (#{d.position})"
+    .html (d) -> "#{d.team}: #{d.player} (#{d.position})"
 
   vis = el.append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -37,8 +37,7 @@ render = ->
     .call(tip)
 
   dataLoaded = (error, data) ->
-    #data = data.filter (d) -> d.min >= 20 and d.gp >= 10
-    data = data.filter (d) -> d.team_abbreviation and d.min > 10
+    data = data.filter (d) -> d.team and d.min > 10
 
     xag = vis.append('g')
       .attr('class', 'x axis')
@@ -68,8 +67,8 @@ render = ->
     points.enter().append('circle')
       .attr('class', (d) -> "player #{d.position.split('-')[0].toLowerCase()}")
       .attr('r', 2)
-      .on('mouseover', (d) -> tip.attr('class', 'd3-tip animate').show(d))
-      .on('mouseout', (d) -> tip.attr('class', 'd3-tip').hide())
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
 
     redraw = ->
       stats = refreshStats()
@@ -90,10 +89,15 @@ render = ->
       transition.select('.x.axis').call(xax)
       transition.select('.y.axis').call(yax)
 
-      points.transition().duration(500).ease('cubic-out')
+      selectedTeam = (d) ->
+        d.team.toLowerCase() == stats.team.toLowerCase()
+
+      points.sort((a, b) ->
+        if a.team.toLowerCase() == stats.team.toLowerCase() then 1 else -1).transition().duration(500).ease('cubic-out')
         .attr('cx', (d) -> x d[stats.xstat.k])
         .attr('cy', (d) -> y d[stats.ystat.k])
-        .attr('r', 4)
+        .style('fill-opacity', (d) -> if selectedTeam(d) then 0.9 else 0.6)
+        .attr('r', (d) -> if selectedTeam(d) then 10 else 4)
 
       points.exit().remove()
 
@@ -101,8 +105,10 @@ render = ->
 
 
     refreshStats = ->
-      xstat = el.attr 'data-x'
-      ystat = el.attr 'data-y'
+      xstat  = el.attr 'data-x'
+      ystat  = el.attr 'data-y'
+      team   = el.attr 'data-team'
+      player = el.attr 'data-player'
 
       if not ystat
         ystat = d3.shuffle(__metrics)[0]
@@ -117,9 +123,12 @@ render = ->
         xstat = __metrics.filter((v) -> v.k == xstat)[0]
 
       url = "#{document.location.origin}/interactive?y=#{ystat.k}&x=#{xstat.k}"
+      url += "&team=#{team.toLowerCase()}" if team
+      url += "&player=#{player}" if player
+
       d3.select('.js-url').attr 'value', url
 
-      {xstat, ystat}
+      {xstat, ystat, team, player}
 
     d3.selectAll('.js-stats .js-stat').on 'change', (e) ->
       select = d3.select this
@@ -147,13 +156,25 @@ render = ->
       xrow.enter().append 'tr'
 
       ycells = yrow.selectAll('td')
-        .data((d, i) -> ["##{i+1}", d.player, d.team_abbreviation, d[ykey].toFixed()])
+        .data((d, i) -> ["##{i+1}", d.player, d.team, d[ykey].toFixed()])
 
       xcells = xrow.selectAll('td')
-        .data((d, i) -> ["##{i+1}", d.player, d.team_abbreviation, d[xkey].toFixed()])
+        .data((d, i) -> ["##{i+1}", d.player, d.team, d[xkey].toFixed()])
 
       ycells.enter().append('td').html((d) -> d)
       xcells.enter().append('td').html((d) -> d)
+
+
+      highlight = (data) ->
+        team = data.team
+        pid  = data.player_id
+
+        el.attr 'data-team', team
+        el.attr 'data-player', pid
+        redraw()
+
+      yrow.on 'click', highlight
+      xrow.on 'click', highlight
 
       ycells.exit().remove()
       xcells.exit().remove()
