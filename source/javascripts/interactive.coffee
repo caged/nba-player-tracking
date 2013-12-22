@@ -143,13 +143,8 @@ render = ->
       yrow = d3.select('.js-top-y').selectAll('tr').data(topy, (d) -> d.player_id)
       xrow = d3.select('.js-top-x').selectAll('tr').data(topx, (d) -> d.player_id)
 
-      yrow.enter().append('tr')
-        .attr('data-id', (d) -> d.player_id)
-        .attr('data-team', (d) -> d.team_abbreviation)
-
-      xrow.enter().append('tr')
-      .attr('data-id', (d) -> d.player_id)
-      .attr('data-team', (d) -> d.team_abbreviation)
+      yrow.enter().append 'tr'
+      xrow.enter().append 'tr'
 
       ycells = yrow.selectAll('td')
         .data((d, i) -> ["##{i+1}", d.player, d.team_abbreviation, d[ykey].toFixed()])
