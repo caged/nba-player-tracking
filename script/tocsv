@@ -121,7 +121,10 @@ glob 'data/stats/*.js', (err, paths) ->
 
   wroteHeaders = false
   for pid, stats of players
-    stathead = Object.keys(stats)
+    stathead = Object.keys(stats).map (head) ->
+      head = 'team' if head is 'team_abbreviation'
+      head
+
     if !wroteHeaders
       console.log stathead.join(',')
       wroteHeaders = true
@@ -130,7 +133,4 @@ glob 'data/stats/*.js', (err, paths) ->
     for _, val of stats
       vals.push val
     console.log vals.join(',')
-
-  fs.writeFileSync('source/metrics.json', JSON.stringify(metrics))
-
 
