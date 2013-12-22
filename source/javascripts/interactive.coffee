@@ -108,6 +108,7 @@ render = ->
       xstat  = el.attr 'data-x'
       ystat  = el.attr 'data-y'
       team   = el.attr 'data-team'
+      player = el.attr 'data-player'
 
       if not ystat
         ystat = d3.shuffle(__metrics)[0]
@@ -123,10 +124,11 @@ render = ->
 
       url = "#{document.location.origin}/interactive?y=#{ystat.k}&x=#{xstat.k}"
       url += "&team=#{team.toLowerCase()}" if team
+      url += "&player=#{player}" if player
 
       d3.select('.js-url').attr 'value', url
 
-      {xstat, ystat, team}
+      {xstat, ystat, team, player}
 
     d3.selectAll('.js-stats .js-stat').on 'change', (e) ->
       select = d3.select this
@@ -168,6 +170,7 @@ render = ->
         pid  = data.player_id
 
         el.attr 'data-team', team
+        el.attr 'data-player', pid
         redraw()
 
       yrow.on 'click', highlight
