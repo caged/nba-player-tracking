@@ -128,7 +128,7 @@ render = ->
       else
         xstat = __metrics.filter((v) -> v.k == xstat)[0]
 
-      url = "#{document.location.origin}/interactive?y=#{ystat.k}&x=#{xstat.k}"
+      url = "#{document.location.origin}?y=#{ystat.k}&x=#{xstat.k}"
       url += "&team=#{team.toLowerCase()}" if team
       url += "&player=#{player}" if player
 
