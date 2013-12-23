@@ -13,6 +13,4 @@
 # Ignore Sass' cache
 /.sass-cache
 
-source/javascripts/components
-
 node_modules

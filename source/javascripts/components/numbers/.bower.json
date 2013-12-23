@@ -1,0 +1,13 @@
+{
+  "name": "numbers",
+  "_cacheHeaders": {
+    "ETag": "\"8360070efb9868b76f125b4913e5b43e\"",
+    "Content-Type": "text/plain; charset=utf-8",
+    "Content-Disposition": "inline"
+  },
+  "_release": "e-tag:8360070ef",
+  "main": "index.js",
+  "_source": "https://gist.github.com/Zikes/4279121/raw/b6d7bf2defa85e582730a820a027b0a7555de3e9/numbers.js",
+  "_target": "*",
+  "_originalSource": "https://gist.github.com/Zikes/4279121/raw/b6d7bf2defa85e582730a820a027b0a7555de3e9/numbers.js"
+}
