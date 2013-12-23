@@ -1,6 +1,6 @@
 # Drive and Kick      - http://localhost:4567/interactive?y=pts_crt&x=dpp
 # And One Assists     - http://localhost:4567/interactive?y=pts_crt&x=ast_ft
-# Always Be Passig    - http://localhost:4567/interactive?y=pass&x=top
+# Ball Movement       - http://localhost:4567/interactive?y=pass&x=top
 # Going for the steal - http://localhost:4567/interactive?y=dist_pg&x=stl
 # Old Guys Driving    - http://localhost:4567/interactive?y=dvs&x=age
 render = ->
@@ -89,15 +89,21 @@ render = ->
       transition.select('.x.axis').call(xax)
       transition.select('.y.axis').call(yax)
 
-      selectedTeam = (d) ->
-        d.team.toLowerCase() == stats.team.toLowerCase()
+      focusedItem = (d) ->
+        d.team.toLowerCase() is stats.team.toLowerCase() or
+        d.player_id is parseFloat(stats.player)
 
       points.sort((a, b) ->
-        if a.team.toLowerCase() == stats.team.toLowerCase() then 1 else -1).transition().duration(500).ease('cubic-out')
+        if stats.team != ''
+          if a.team.toLowerCase() == stats.team.toLowerCase() then 1 else -1
+        else if stats.player != ''
+          if a.player_id == parseFloat(stats.player) then 1 else -1
+      )
+      .transition().duration(500).ease('cubic-out')
         .attr('cx', (d) -> x d[stats.xstat.k])
         .attr('cy', (d) -> y d[stats.ystat.k])
-        .style('fill-opacity', (d) -> if selectedTeam(d) then 0.9 else 0.6)
-        .attr('r', (d) -> if selectedTeam(d) then 10 else 4)
+        .style('fill-opacity', (d) -> if focusedItem(d) then 0.9 else 0.6)
+        .attr('r', (d) -> if focusedItem(d) then 10 else 4)
 
       points.exit().remove()
 
@@ -149,11 +155,13 @@ render = ->
       d3.select('.js-top-y-label').text stats.ystat.v
       d3.select('.js-top-x-label').text stats.xstat.v
 
-      yrow = d3.select('.js-top-y').selectAll('tr').data(topy, (d) -> d.player_id)
-      xrow = d3.select('.js-top-x').selectAll('tr').data(topx, (d) -> d.player_id)
+      yrow = d3.select('.js-top-y').selectAll('tr').data topy, (d) -> d.player_id
+      xrow = d3.select('.js-top-x').selectAll('tr').data topx, (d) -> d.player_id
 
       yrow.enter().append 'tr'
       xrow.enter().append 'tr'
+
+      cellkeys = ['', 'player', 'team', 'metric']
 
       ycells = yrow.selectAll('td')
         .data((d, i) -> ["##{i+1}", d.player, d.team, d[ykey].toFixed()])
@@ -161,16 +169,39 @@ render = ->
       xcells = xrow.selectAll('td')
         .data((d, i) -> ["##{i+1}", d.player, d.team, d[xkey].toFixed()])
 
-      ycells.enter().append('td').html((d) -> d)
-      xcells.enter().append('td').html((d) -> d)
+      ycells.enter().append('td')
+        .attr('data-key', (d, i) -> cellkeys[i])
+        .html((d) -> d)
 
+      xcells.enter().append('td')
+        .attr('data-key', (d, i) -> cellkeys[i])
+        .html((d) -> d)
 
-      highlight = (data) ->
-        team = data.team
-        pid  = data.player_id
+      # Highlight a player or team and redraw the
+      # chart
+      highlight = (d) ->
+        target = d3.select d3.event.target
+        key    = target.attr 'data-key'
 
-        el.attr 'data-team', team
-        el.attr 'data-player', pid
+        if target.classed 'selected'
+          target.classed 'selected', false
+          el.attr 'data-player', ''
+          el.attr 'data-team', ''
+
+          return redraw()
+        else
+          xcells.classed 'selected', false
+          ycells.classed 'selected', false
+
+        target.classed 'selected', true
+
+        if key is 'player'
+          el.attr 'data-player', d.player_id
+          el.attr 'data-team', ''
+        else if key is 'team'
+          el.attr 'data-team', d.team
+          el.attr 'data-player', ''
+
         redraw()
 
       yrow.on 'click', highlight

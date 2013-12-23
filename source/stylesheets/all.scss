@@ -323,6 +323,11 @@ path.domain { fill: none; }
   td {
     padding: 10px;
     border: 1px solid #eee;
+
+    &.selected {
+      background: dodgerblue !important;
+      color: #fff;
+    }
   }
 
   tr td:first-child {
@@ -332,6 +337,11 @@ path.domain { fill: none; }
 
   tr td:nth-child(2) {
     font-weight: bold;
+  }
+
+  tr td:nth-child(2),
+  tr td:nth-child(3) {
+    cursor: pointer;
   }
 
   tr td:last-child {
