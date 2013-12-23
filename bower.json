@@ -1,8 +1,7 @@
 {
-  "name": "NAME HERE",
+  "name": "NBA Player Tracking",
   "dependencies": {
     "d3": "3",
-    "d3-tip": "0",
-    "regression": "https://raw2.github.com/Tom-Alexander/regression-js/master/src/regression.js"
+    "d3-tip": "0"
   }
 }
