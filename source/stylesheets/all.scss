@@ -205,6 +205,14 @@ footer {
 ////////////////////////////////////////////////////////////////////////////////
 // =interaction
 ////////////////////////////////////////////////////////////////////////////////
+.loading {
+  display: block;
+  font-weight: bold;
+  color: #666;
+  text-align: center;
+  margin-top: 200px;
+}
+
 .scatterplot-header {
   border-bottom: 1px solid #eee;
   padding: 10px;

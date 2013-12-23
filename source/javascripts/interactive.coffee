@@ -37,6 +37,7 @@ render = ->
     .call(tip)
 
   dataLoaded = (error, data) ->
+    d3.select('.js-loading').remove()
     data = data.filter (d) -> d.team and d.min > 10
 
     xag = vis.append('g')
