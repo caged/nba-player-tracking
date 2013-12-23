@@ -29,15 +29,7 @@ metricsSkip = [
 ]
 
 players = {}
-metrics = {}
 headers = []
-
-metrics.general = [
-  { k: 'height', v: 'Height' }
-  { k: 'weight', v: 'Weight' }
-  { k: 'age',    v: 'Age' }
-  { k:'exp',     v: 'Experience' }
-]
 
 # Convert strings like 6-11 to their inch equivelant
 #
