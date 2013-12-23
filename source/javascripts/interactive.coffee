@@ -60,7 +60,7 @@ render = ->
     yal = yag.append('text')
       .attr('class', 'label')
       .attr('text-anchor', 'end')
-      .attr('x', 0)
+      .attr('x', 10)
       .attr('y', -width - 40)
       .attr('transform', 'rotate(-90)')
 
