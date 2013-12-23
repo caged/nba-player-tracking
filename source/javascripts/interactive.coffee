@@ -1,8 +1,8 @@
-# Drive and Kick      - http://localhost:4567/interactive?y=pts_crt&x=dpp
-# And One Assists     - http://localhost:4567/interactive?y=pts_crt&x=ast_ft
-# Ball Movement       - http://localhost:4567/interactive?y=pass&x=top
-# Going for the steal - http://localhost:4567/interactive?y=dist_pg&x=stl
-# Old Guys Driving    - http://localhost:4567/interactive?y=dvs&x=age
+# Drive and Kick       - http://tracking.andone.co?y=pts_crt&x=dpp
+# Passing into traffic - http://tracking.andone.co?y=pts_crt&x=ast_ft
+# Ball Movement        - http://tracking.andone.co?y=pass&x=top
+# Going for the steal  - http://tracking.andone.co?y=dist_pg&x=stl
+# Old Guys Driving     - http://tracking.andone.co?y=dvs&x=age
 render = ->
   el = d3.select '.js-scatterplot'
   margin = top: 20, right: 20, bottom: 50, left: 60
@@ -38,7 +38,7 @@ render = ->
 
   dataLoaded = (error, data) ->
     d3.select('.js-loading').remove()
-    data = data.filter (d) -> d.team and d.min > 10
+    data = data.filter (d) -> d.team and d.min > 10 and d.gp > 10
 
     xag = vis.append('g')
       .attr('class', 'x axis')
