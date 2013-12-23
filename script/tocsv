@@ -95,16 +95,6 @@ glob 'data/stats/*.js', (err, paths) ->
       keys = rs.headers
       keyprefix = path.basename(location).replace('.js', '').replace('-', '_')
 
-      metrics[keyprefix] = headers.filter((h) -> h not in metricsSkip)
-        .map (h) ->
-          if h in prefix and keyprefix not in ['touches', 'defense']
-            mkey = "#{keyprefix}_#{h.toLowerCase()}"
-          else
-            mkey = h.toLowerCase()
-
-          v = mappings.filter((m) -> m.k == mkey)[0]?.v
-          {k: mkey, v: v}
-
       # Loop through current advanced stat file and add the stats to the
       # player previously created or create the player
       for stat in rs.rowSet
