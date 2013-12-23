@@ -61,7 +61,7 @@ glob 'data/teams/*.json', (err, paths) ->
       for stat,i in pl
         hdr = pheaders[i]
         if hdr.toLowerCase() == 'birth_date'
-          tmpplayer[hdr] = new Date(stat)
+          tmpplayer[hdr] = new Date(stat).toJSON()
         else if hdr.toLowerCase() == 'height'
           tmpplayer[hdr] = heightToInches stat
         else if hdr.toLowerCase() == 'exp'
