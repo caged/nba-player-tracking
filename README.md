@@ -1,14 +1,25 @@
-### Installation
+![screen shot 2013-12-23 at 11 27 43 am](https://f.cloud.github.com/assets/25/1802714/8c60c31e-6c08-11e3-9271-8e5d5876167e.png)
+
+**Install***
 
 ```
-git clone git@github.com:Caged/datavis-template.git ~/.middleman/data
-```
-
-### Usage
-
-```
-middleman init MY_APP_NAME --rack --template=data
-cd MY_APP_NAME
+https://github.com/Caged/nba-player-tracking.git
+npm install
 bower install
+```
+
+**Sync**
+
+```
+./script/syncstats
+./script/syncteams
+./script/tometricdefs
+./script/tocsv > source/players.csv
+```
+
+**Start**
+
+```
 ./script/server
+open http://localhost:4567
 ```
