@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+script/syncstats
+script/tocsv > source/players.csv
+csv2psql source/players.csv players > players.sql
