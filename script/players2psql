@@ -4,4 +4,4 @@ set -e
 
 script/syncstats
 script/tocsv > source/players.csv
-csv2psql source/players.csv players > players.sql
+csv2psql source/players.csv players | psql -d nba
