@@ -116,4 +116,3 @@ glob 'data/stats/*.js', (err, paths) ->
     for _, val of stats
       vals.push val
     console.log vals.join(',')
-
