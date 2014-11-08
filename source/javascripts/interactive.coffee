@@ -38,7 +38,7 @@ render = ->
 
   dataLoaded = (error, data) ->
     d3.select('.js-loading').remove()
-    data = data.filter (d) -> d.team and d.min > 10 and d.gp > 10
+    data = data.filter (d) -> d.team and d.min > 10 #and d.gp > 10
 
     xag = vis.append('g')
       .attr('class', 'x axis')
@@ -73,7 +73,6 @@ render = ->
 
     redraw = ->
       stats = refreshStats()
-
       d3.select('.js-label-y').text stats.ystat.v
       d3.select('.js-label-x').text stats.xstat.v
 
