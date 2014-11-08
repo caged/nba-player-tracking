@@ -1,23 +1,15 @@
 #!/bin/sh
 
-season=2014
+shortseason=2014
+shortyear=$((shortseason+1))
+season="${shortseason}-${shortyear:2:2}"
 
-# curl -o data/stats/speed.js       -# 'http://stats.nba.com/js/data/sportvu/speedData.js'
-# curl -o data/stats/touches.js     -# 'http://stats.nba.com/js/data/sportvu/touchesData.js'
-# curl -o data/stats/passing.js     -# 'http://stats.nba.com/js/data/sportvu/passingData.js'
-# curl -o data/stats/defense.js     -# 'http://stats.nba.com/js/data/sportvu/defenseData.js'
-# curl -o data/stats/rebounding.js  -# 'http://stats.nba.com/js/data/sportvu/reboundingData.js'
-# curl -o data/stats/drives.js      -# 'http://stats.nba.com/js/data/sportvu/drivesData.js'
-# curl -o data/stats/catch-shoot.js -# 'http://stats.nba.com/js/data/sportvu/catchShootData.js'
-# curl -o data/stats/pull-ups.js    -# 'http://stats.nba.com/js/data/sportvu/pullUpShootData.js'
-# curl -o data/stats/shooting.js    -# 'http://stats.nba.com/js/data/sportvu/shootingData.js'
-
-curl -o data/stats/speed.json       -# "http://stats.nba.com/js/data/sportvu/$season/speedData.json"
-curl -o data/stats/touches.json     -# "http://stats.nba.com/js/data/sportvu/$season/touchesData.json"
-curl -o data/stats/passing.json     -# "http://stats.nba.com/js/data/sportvu/$season/passingData.json"
-curl -o data/stats/defense.json     -# "http://stats.nba.com/js/data/sportvu/$season/defenseData.json"
-curl -o data/stats/rebounding.json  -# "http://stats.nba.com/js/data/sportvu/$season/reboundingData.json"
-curl -o data/stats/drives.json      -# "http://stats.nba.com/js/data/sportvu/$season/drivesData.json"
-curl -o data/stats/catch-shoot.json -# "http://stats.nba.com/js/data/sportvu/$season/catchShootData.json"
-curl -o data/stats/pull-ups.json    -# "http://stats.nba.com/js/data/sportvu/$season/pullUpShootData.json"
-curl -o data/stats/shooting.json    -# "http://stats.nba.com/js/data/sportvu/$season/shootingData.json"
+curl --create-dirs -# -o data/stats/$season/speed.json       -# "http://stats.nba.com/js/data/sportvu/$shortseason/speedData.json"
+curl --create-dirs -# -o data/stats/$season/touches.json     -# "http://stats.nba.com/js/data/sportvu/$shortseason/touchesData.json"
+curl --create-dirs -# -o data/stats/$season/passing.json     -# "http://stats.nba.com/js/data/sportvu/$shortseason/passingData.json"
+curl --create-dirs -# -o data/stats/$season/defense.json     -# "http://stats.nba.com/js/data/sportvu/$shortseason/defenseData.json"
+curl --create-dirs -# -o data/stats/$season/rebounding.json  -# "http://stats.nba.com/js/data/sportvu/$shortseason/reboundingData.json"
+curl --create-dirs -# -o data/stats/$season/drives.json      -# "http://stats.nba.com/js/data/sportvu/$shortseason/drivesData.json"
+curl --create-dirs -# -o data/stats/$season/catch-shoot.json -# "http://stats.nba.com/js/data/sportvu/$shortseason/catchShootData.json"
+curl --create-dirs -# -o data/stats/$season/pull-ups.json    -# "http://stats.nba.com/js/data/sportvu/$shortseason/pullUpShootData.json"
+curl --create-dirs -# -o data/stats/$season/shooting.json    -# "http://stats.nba.com/js/data/sportvu/$shortseason/shootingData.json"
