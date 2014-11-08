@@ -1,12 +1,23 @@
 #!/bin/sh
 
-curl -o data/stats/speed.js       -# 'http://stats.nba.com/js/data/sportvu/speedData.js'
-curl -o data/stats/touches.js     -# 'http://stats.nba.com/js/data/sportvu/touchesData.js'
-curl -o data/stats/passing.js     -# 'http://stats.nba.com/js/data/sportvu/passingData.js'
-curl -o data/stats/defense.js     -# 'http://stats.nba.com/js/data/sportvu/defenseData.js'
-curl -o data/stats/rebounding.js  -# 'http://stats.nba.com/js/data/sportvu/reboundingData.js'
-curl -o data/stats/drives.js      -# 'http://stats.nba.com/js/data/sportvu/drivesData.js'
-curl -o data/stats/catch-shoot.js -# 'http://stats.nba.com/js/data/sportvu/catchShootData.js'
-curl -o data/stats/pull-ups.js    -# 'http://stats.nba.com/js/data/sportvu/pullUpShootData.js'
-curl -o data/stats/shooting.js    -# 'http://stats.nba.com/js/data/sportvu/shootingData.js'
+season=2014
 
+# curl -o data/stats/speed.js       -# 'http://stats.nba.com/js/data/sportvu/speedData.js'
+# curl -o data/stats/touches.js     -# 'http://stats.nba.com/js/data/sportvu/touchesData.js'
+# curl -o data/stats/passing.js     -# 'http://stats.nba.com/js/data/sportvu/passingData.js'
+# curl -o data/stats/defense.js     -# 'http://stats.nba.com/js/data/sportvu/defenseData.js'
+# curl -o data/stats/rebounding.js  -# 'http://stats.nba.com/js/data/sportvu/reboundingData.js'
+# curl -o data/stats/drives.js      -# 'http://stats.nba.com/js/data/sportvu/drivesData.js'
+# curl -o data/stats/catch-shoot.js -# 'http://stats.nba.com/js/data/sportvu/catchShootData.js'
+# curl -o data/stats/pull-ups.js    -# 'http://stats.nba.com/js/data/sportvu/pullUpShootData.js'
+# curl -o data/stats/shooting.js    -# 'http://stats.nba.com/js/data/sportvu/shootingData.js'
+
+curl -o data/stats/speed.json       -# "http://stats.nba.com/js/data/sportvu/$season/speedData.json"
+curl -o data/stats/touches.json     -# "http://stats.nba.com/js/data/sportvu/$season/touchesData.json"
+curl -o data/stats/passing.json     -# "http://stats.nba.com/js/data/sportvu/$season/passingData.json"
+curl -o data/stats/defense.json     -# "http://stats.nba.com/js/data/sportvu/$season/defenseData.json"
+curl -o data/stats/rebounding.json  -# "http://stats.nba.com/js/data/sportvu/$season/reboundingData.json"
+curl -o data/stats/drives.json      -# "http://stats.nba.com/js/data/sportvu/$season/drivesData.json"
+curl -o data/stats/catch-shoot.json -# "http://stats.nba.com/js/data/sportvu/$season/catchShootData.json"
+curl -o data/stats/pull-ups.json    -# "http://stats.nba.com/js/data/sportvu/$season/pullUpShootData.json"
+curl -o data/stats/shooting.json    -# "http://stats.nba.com/js/data/sportvu/$season/shootingData.json"
