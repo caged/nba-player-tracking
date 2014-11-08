@@ -83,7 +83,7 @@ glob "data/stats/#{season}/*.json", (err, paths) ->
 
     rs   = data.resultSets[0]
     keys = rs.headers
-    keyprefix = path.basename(location).replace('.js', '').replace('-', '_')
+    keyprefix = path.basename(location).replace('.json', '').replace('-', '_')
 
     # Loop through current advanced stat file and add the stats to the
     # player previously created or create the player
