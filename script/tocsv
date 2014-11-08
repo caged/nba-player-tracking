@@ -5,6 +5,7 @@ vm   = require 'vm'
 path = require 'path'
 mappings = require '../source/javascripts/mappings'
 
+season='2014-15'
 
 prefix = [
   'PTS',
@@ -26,6 +27,7 @@ metricsSkip = [
   'FIRST_NAME'
   'LAST_NAME'
   'TEAM_ABBREVIATION'
+  'SCHOOL'
 ]
 
 players = {}
@@ -42,7 +44,7 @@ heightToInches = (height) ->
 # metadata including position, height, weight, etc.
 #
 # returns nothing
-glob 'data/teams/*.json', (err, paths) ->
+glob "data/teams/#{season}/*.json", (err, paths) ->
   for location in paths
     data = JSON.parse(fs.readFileSync location, 'utf8')
     pheaders = data.resultSets[0].headers.map (h) -> h.toLowerCase()
@@ -59,6 +61,7 @@ glob 'data/teams/*.json', (err, paths) ->
         else if hdr.toLowerCase() == 'exp'
           tmpplayer[hdr] = if stat == 'R' then 0 else stat
         else
+          stat = '' if !stat
           tmpplayer[hdr] = stat.toString().replace(',', '')
 
       curplayer = players[tmpplayer.player_id] ?= tmpplayer
@@ -68,39 +71,34 @@ glob 'data/teams/*.json', (err, paths) ->
 # above
 #
 # Returns nothing
-glob 'data/stats/*.js', (err, paths) ->
+glob "data/stats/#{season}/*.json", (err, paths) ->
   for location in paths
     data = fs.readFileSync(location, 'utf8')
-    sandbox = {}
-    vm.runInNewContext data.toString(), sandbox
+    data = JSON.parse data
 
-    # Get an array of every header across all files first
-    for key of sandbox
-      rs = sandbox[key].resultSets[0]
-      headers = headers.concat rs.headers
+    headers = data.resultSets[0].headers
 
     # Remove duplicate headers
     headers = headers.filter (val, index, obj) -> obj.indexOf(val) == index
 
-    for key of sandbox
-      rs   = sandbox[key].resultSets[0]
-      keys = rs.headers
-      keyprefix = path.basename(location).replace('.js', '').replace('-', '_')
+    rs   = data.resultSets[0]
+    keys = rs.headers
+    keyprefix = path.basename(location).replace('.js', '').replace('-', '_')
 
-      # Loop through current advanced stat file and add the stats to the
-      # player previously created or create the player
-      for stat in rs.rowSet
-        player = {}
-        player[keys[i]] = val for val,i in stat
+    # Loop through current advanced stat file and add the stats to the
+    # player previously created or create the player
+    for stat in rs.rowSet
+      player = {}
+      player[keys[i]] = val for val,i in stat
 
-        db = players[player.PLAYER_ID]
-        continue if !db
+      db = players[player.PLAYER_ID]
+      continue if !db
 
-        # Set the stats on the stored player
-        for name,val of player
-          name = "#{keyprefix}_#{name}" if name in prefix and keyprefix isnt 'touches'
-          val = null if val is "-"
-          db[name.toLowerCase()] = val
+      # Set the stats on the stored player
+      for name,val of player
+        name = "#{keyprefix}_#{name}" if name in prefix and keyprefix isnt 'touches'
+        val = null if val is "-"
+        db[name.toLowerCase()] = val
 
   wroteHeaders = false
   for pid, stats of players
