@@ -9,5 +9,5 @@ url="http://stats.nba.com/stats/leaguedashteamstats?Season=${season}&SeasonType=
 teamids=$(curl ${url} | jq '.resultSets[].rowSet[][0]')
 
 for teamid in ${teamids}; do
-  curl -# -o data/teams/${teamid}.json "http://stats.nba.com/stats/commonteamroster/?Season=${season}&LeagueID=00&TeamID=${teamid}"
+  curl --create-dirs -# -o data/teams/$season/${teamid}.json "http://stats.nba.com/stats/commonteamroster/?Season=${season}&LeagueID=00&TeamID=${teamid}"
 done
