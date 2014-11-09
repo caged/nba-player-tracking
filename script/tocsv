@@ -90,7 +90,6 @@ glob "data/stats/#{season}/*.json", (err, paths) ->
     for stat in rs.rowSet
       player = {}
       player[keys[i]] = val for val,i in stat
-
       db = players[player.PLAYER_ID]
       continue if !db
 
@@ -102,6 +101,8 @@ glob "data/stats/#{season}/*.json", (err, paths) ->
 
   wroteHeaders = false
   for pid, stats of players
+    stats.season = season
+    
     stathead = Object.keys(stats).map (head) ->
       head = 'team' if head is 'team_abbreviation'
       head
