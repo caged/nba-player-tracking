@@ -3,9 +3,11 @@
 **Install**
 
 ```
-https://github.com/Caged/nba-player-tracking.git
+git clone https://github.com/Caged/nba-player-tracking.git
+cd nba-player-tracking
 npm install
 bower install
+brew install jq
 ```
 
 **Sync**
