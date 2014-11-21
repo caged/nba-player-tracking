@@ -14,3 +14,7 @@
 /.sass-cache
 
 node_modules
+
+data/stats/*
+data/teams/*
+data/metadata/*

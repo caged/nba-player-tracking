@@ -3,10 +3,11 @@
 # To get position, weight and height data we need to sync each teams
 # roster.  requires `jq` (brew install jq on osx)
 #
-url="http://stats.nba.com/stats/leaguedashteamstats?Season=2013-14&AllStarSeason=2011-12&SeasonType=Regular+Season&LeagueID=00&MeasureType=Base&PerMode=PerGame&PlusMinus=N&PaceAdjust=N&Rank=N&Outcome=&Location=&Month=0&SeasonSegment=&DateFrom=&DateTo=&OpponentTeamID=0&VsConference=&VsDivision=&GameSegment=&Period=0&LastNGames=0&GameScope=&PlayerExperience=&PlayerPosition=&StarterBench="
+season='2014-15'
+
+url="http://stats.nba.com/stats/leaguedashteamstats?Season=${season}&SeasonType=Regular+Season&LeagueID=00&MeasureType=Base&PerMode=PerGame&PlusMinus=N&PaceAdjust=N&Rank=N&Outcome=&Location=&Month=0&SeasonSegment=&DateFrom=&DateTo=&OpponentTeamID=0&VsConference=&VsDivision=&GameSegment=&Period=0&LastNGames=0&GameScope=&PlayerExperience=&PlayerPosition=&StarterBench="
 teamids=$(curl ${url} | jq '.resultSets[].rowSet[][0]')
 
 for teamid in ${teamids}; do
-  curl -# -o data/teams/${teamid}.json "http://stats.nba.com/stats/commonteamroster/?Season=2013-14&LeagueID=00&TeamID=${teamid}"
+  curl --create-dirs -# -o data/teams/$season/${teamid}.json "http://stats.nba.com/stats/commonteamroster/?Season=${season}&LeagueID=00&TeamID=${teamid}"
 done
-

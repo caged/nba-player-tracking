@@ -38,7 +38,8 @@ render = ->
 
   dataLoaded = (error, data) ->
     d3.select('.js-loading').remove()
-    data = data.filter (d) -> d.team and d.min > 10 and d.gp > 10
+    maxgp = d3.max data, (d) -> d.gp
+    data = data.filter (d) -> d.team and d.min > 10 and +d.gp >= maxgp / 2
 
     xag = vis.append('g')
       .attr('class', 'x axis')
@@ -73,7 +74,6 @@ render = ->
 
     redraw = ->
       stats = refreshStats()
-
       d3.select('.js-label-y').text stats.ystat.v
       d3.select('.js-label-x').text stats.xstat.v
 
@@ -107,7 +107,6 @@ render = ->
         .attr('r', (d) -> if focusedItem(d) then 10 else 4)
 
       points.exit().remove()
-
       updateTopListsForStats(stats)
 
 
@@ -150,14 +149,14 @@ render = ->
       xkey = stats.xstat.k
       ykey = stats.ystat.k
 
-      topx = data.sort((a, b) -> d3.descending a[xkey], b[xkey])[0..9]
+      topx = data.sort((a, b) -> d3.descending +a[xkey], +b[xkey])[0..9]
       topy = data.sort((a, b) -> d3.descending a[ykey], b[ykey])[0..9]
 
       d3.select('.js-top-y-label').text stats.ystat.v
       d3.select('.js-top-x-label').text stats.xstat.v
 
-      yrow = d3.select('.js-top-y').selectAll('tr').data topy, (d) -> d.player_id
-      xrow = d3.select('.js-top-x').selectAll('tr').data topx, (d) -> d.player_id
+      yrow = d3.select('.js-top-y').html('').selectAll('tr').data topy
+      xrow = d3.select('.js-top-x').html('').selectAll('tr').data topx
 
       yrow.enter().append 'tr'
       xrow.enter().append 'tr'
@@ -207,11 +206,6 @@ render = ->
 
       yrow.on 'click', highlight
       xrow.on 'click', highlight
-
-      ycells.exit().remove()
-      xcells.exit().remove()
-      yrow.exit().remove()
-      xrow.exit().remove()
 
     # Main entry point
     #
